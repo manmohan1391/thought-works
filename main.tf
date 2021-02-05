@@ -50,36 +50,29 @@ resource "aws_security_group" "thoughtworks_sg" {
     }
 
     ingress {
-        from_port       = 8011
-        to_port         = 8011
+        from_port       = 5001
+        to_port         = 5001
         protocol        = "tcp"
         cidr_blocks     = ["0.0.0.0/0"]
     }
 
     ingress {
-        from_port       = 8022
-        to_port         = 8022
+        from_port       = 5002
+        to_port         = 5002
         protocol        = "tcp"
         cidr_blocks     = ["0.0.0.0/0"]
     }
 
     ingress {
-        from_port       = 8033
-        to_port         = 8033
+        from_port       = 5003
+        to_port         = 5003
         protocol        = "tcp"
         cidr_blocks     = ["0.0.0.0/0"]
     }
 
     ingress {
-        from_port       = 8044
-        to_port         = 8044
-        protocol        = "tcp"
-        cidr_blocks     = ["0.0.0.0/0"]
-    }
-
-    ingress {
-        from_port       = 8055
-        to_port         = 8055
+        from_port       = 5004
+        to_port         = 5004
         protocol        = "tcp"
         cidr_blocks     = ["0.0.0.0/0"]
     }
@@ -127,9 +120,11 @@ resource "null_resource" "cluster" {
       "sudo add-apt-repository \"deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable\"",
       "sudo apt-get update",
       "sudo apt-get install -y docker-ce docker-ce-cli containerd.io",
-      "sudo docker run -p 8044:8080 -d manmohan13912/cloud:newsfeed",
-      "sudo docker run -p 8033:8080 -d manmohan13912/cloud:quotes",
-      "sudo docker run -p 8011:8080 -e PUBLIC_IP=${aws_eip.thoughtworkip.public_ip} -d manmohan13912/cloud:frontend"
+      "sudo docker run -p 5002:8080 -d manmohan13912/cloud:newsfeed-v2",
+      "sudo docker run -p 5003:8080 -d manmohan13912/cloud:quotes-v2",
+      "echo Hello > hello.txt",
+      "sudo docker run -p 5001:8080 -e PUBLIC_IP=${aws_eip.thoughtworkip.public_ip} -d manmohan13912/cloud:frontend-v2",
+      "sudo docker run -p 5005:8000 -d manmohan13912/cloud:static"
     ]
   }
 }
