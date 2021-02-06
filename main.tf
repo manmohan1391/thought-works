@@ -120,10 +120,10 @@ resource "null_resource" "cluster" {
       "sudo add-apt-repository \"deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable\"",
       "sudo apt-get update",
       "sudo apt-get install -y docker-ce docker-ce-cli containerd.io",
-      "sudo docker run -p 5002:8080 -d manmohan13912/cloud:newsfeed-v2",
-      "sudo docker run -p 5003:8080 -d manmohan13912/cloud:quotes-v2",
+      "sudo docker run -p 5002:8080 -d manmohan13912/cloud:newsfeed",
+      "sudo docker run -p 5003:8080 -d manmohan13912/cloud:quotes",
       "echo Hello > hello.txt",
-      "sudo docker run -p 5001:8080 -e PUBLIC_IP=${aws_eip.thoughtworkip.public_ip} -d manmohan13912/cloud:frontend-v2",
+      "sudo docker run -e STATIC_URL=http://${aws_eip.thoughtworkip.public_ip}:5005 -e QUOTE_SERVICE_URL=http://${aws_eip.thoughtworkip.public_ip}:5003 -e NEWSFEED_SERVICE_URL=http://${aws_eip.thoughtworkip.public_ip}:5002 -p 5001:8080 -d manmohan13912/cloud:frontend",
       "sudo docker run -p 5005:8000 -d manmohan13912/cloud:static"
     ]
   }
