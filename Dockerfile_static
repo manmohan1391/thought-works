@@ -1,0 +1,8 @@
+FROM python:3
+RUN apt-get update && apt-get install -y python3-numpy
+
+# copy the packaged jar file into our docker image
+COPY serve.py /serve.py
+
+# set the startup command to execute the jar
+CMD [ "python", "./serve.py" ]
